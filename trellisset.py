@@ -104,6 +104,15 @@ class TrellisSet(object):
             self.led(button, value)
         self.auto_show(True)
 
+    def flush_column_for_button(self, button) -> None:
+        """Flush the column of the button to the Trellis hardware."""
+        column = self._get_column(button)
+        self.auto_show(False)
+        for button in self._get_column_leds(column):
+            value = self.get_led_state(button)
+            self.led(button, value)
+        self.auto_show(True)
+
     def flush_led_state(self) -> None:
         """Flush the LED state to the Trellis hardware."""
         # Disable auto_show
