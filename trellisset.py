@@ -95,6 +95,15 @@ class TrellisSet(object):
         for matrix in self._matrices:
             matrix.led.auto_show = value
 
+    def flush_row_for_button(self, button) -> None:
+        """Flush the row of the button to the Trellis hardware."""
+        row = self._get_row(button)
+        self.auto_show(False)
+        for button in self._get_row_leds(row):
+            value = self.get_led_state(button)
+            self.led(button, value)
+        self.auto_show(True)
+
     def flush_led_state(self) -> None:
         """Flush the LED state to the Trellis hardware."""
         # Disable auto_show
