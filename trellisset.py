@@ -90,13 +90,13 @@ class TrellisSet(object):
         # Return the state of the LED as a boolean
         return bool(self._led_state[row, col])
 
-    # Turn off auto_show so we can control when the LED state is flushed
     def auto_show(self, value:bool) -> None:
+        """Control auto_show state so we can update all at once."""
         for matrix in self._matrices:
             matrix.led.auto_show = value
 
     def flush_row_for_button(self, button) -> None:
-        """Flush the row of the button to the Trellis hardware."""
+        """Flush button row state to the Trellis hardware."""
         row = self._get_row(button)
         self.auto_show(False)
         for button in self._get_row_leds(row):
@@ -105,7 +105,7 @@ class TrellisSet(object):
         self.auto_show(True)
 
     def flush_column_for_button(self, button) -> None:
-        """Flush the column of the button to the Trellis hardware."""
+        """Flush button column state to the Trellis hardware."""
         column = self._get_column(button)
         self.auto_show(False)
         for button in self._get_column_leds(column):
