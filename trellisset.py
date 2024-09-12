@@ -102,6 +102,11 @@ class TrellisSet(object):
         row, col = np.where(self._button_grid == led)
         self._led_state[row, col] = not self._led_state[row, col]
 
+    def update_led(self, button) -> None:
+        """Update the LED state."""
+        current_state = self.get_led_state(button)
+        self.led_from_button(button, current_state)
+
     def auto_show(self, value:bool) -> None:
         """Control auto_show state so we can update all at once."""
         for matrix in self._matrices:

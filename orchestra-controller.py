@@ -21,9 +21,8 @@ def handle_buttons():
     """Handle button presses and releases, updating Untztrument state."""
     just_pressed, released = untztrument.read_buttons()
     for b in just_pressed:
-        current_state = untztrument.get_led_state(b)
-        untztrument.update_led_state(b, not current_state)
-        untztrument.led_from_button(b, not current_state)
+        untztrument.toggle_led_state(b)
+        untztrument.update_led(b)
 
     # Display button states if any pressed:
     if (just_pressed or released):
@@ -50,8 +49,8 @@ def flash_column(column, duration = 0.05):
 
 while True:
     time.sleep(0.1)
-#     # handle_buttons()
-    handle_buttons_target()
+    handle_buttons()
+    # handle_buttons_target()
     for i in range(16):
         print (i)
         # untztrument.led_column(i, True)
