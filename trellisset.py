@@ -1,4 +1,5 @@
 import numpy as np
+from typing import List
 
 class TrellisSet(object):
 
@@ -111,6 +112,19 @@ class TrellisSet(object):
         """Control auto_show state so we can update all at once."""
         for matrix in self._matrices:
             matrix.led.auto_show = value
+
+    def get_column_state(self, column: int) -> List[bool]:
+        """Return the state of all LEDs in the specified column."""
+        column_state = []
+        leds = self._get_leds_from_column(column)
+        for led in leds:
+            column_state.append(self.get_led_state(led))
+        return column_state
+
+    def get_column_state_as_string(self, column: int) -> str:
+        """Return the column state as a string of 1s and 0s."""
+        column_state = self.get_column_state(column)
+        return "".join([str(int(x)) for x in column_state])
 
     def flush_row_for_button(self, button) -> None:
         """Flush button row state to the Trellis hardware."""
