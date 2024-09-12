@@ -1,3 +1,4 @@
+from operator import is_
 import time
 import busio
 from board import SCL, SDA
@@ -12,6 +13,7 @@ class Orchestra(object):
         self._bpm = 120
         self._current_beat = 0
         self._number_of_beats = 16
+        self._running = False
 
         # Initialize the Untztrument
         i2c = busio.I2C(SCL, SDA)
@@ -54,10 +56,23 @@ class Orchestra(object):
     def start(self):
         """Start the orchestra."""
         self._timer = RepeatedTimer((60/self._bpm), self.update)
+        self._running = True
 
     def stop(self):
         """Stop the orchestra."""
         self._timer.stop()
+        self._running = False
+
+    def toggle(self):
+        """Toggle the orchestra state."""
+        if self._running:
+            self.stop()
+        else:
+            self.start()
+
+    def is_running(self):
+        """Return the running state of the orchestra."""
+        return self._running
 
     def reset(self):
         """Reset the orchestra."""
