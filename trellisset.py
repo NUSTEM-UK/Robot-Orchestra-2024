@@ -87,7 +87,7 @@ class TrellisSet(object):
         for button in self._get_row_leds_from_button(button):
             self.led_from_button(button, value)
 
-    def update_led_state(self, led, value:bool) -> None:
+    def set_led_state(self, led, value:bool) -> None:
         """Update the state of the LED."""
         row, col = np.where(self._button_grid == led)
         self._led_state[row, col] = value

@@ -24,6 +24,10 @@ class Orchestra(object):
         matrix7 = Trellis(i2c, [0x77])
 
         self.untztrument = TrellisSet(matrix0, matrix1, matrix2, matrix3, matrix4, matrix5, matrix6, matrix7)
+        # Ensure all lights are off
+        self.clear()
+        # Now flush the lights
+        self.untztrument.flush_led_state()
 
 
     def update(self):
@@ -87,3 +91,8 @@ class Orchestra(object):
         self.untztrument.led_column(column, True)
         time.sleep(duration)
         self.untztrument.flush_column(column)
+
+    def clear(self):
+        """Clear the untztrument, ensuring nothing's set."""
+        for b in range(128):
+            self.untztrument.set_led_state(b, False)
