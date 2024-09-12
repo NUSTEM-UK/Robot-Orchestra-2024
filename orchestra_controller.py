@@ -12,6 +12,8 @@ class Orchestra(object):
         self._bpm = 120
         self._current_beat = 0
         self._number_of_beats = 16
+
+        # Initialize the Untztrument
         i2c = busio.I2C(SCL, SDA)
 
         matrix0 = Trellis(i2c, [0x70])
@@ -24,6 +26,7 @@ class Orchestra(object):
         matrix7 = Trellis(i2c, [0x77])
 
         self.untztrument = TrellisSet(matrix0, matrix1, matrix2, matrix3, matrix4, matrix5, matrix6, matrix7)
+
         # Ensure all lights are off
         self.clear()
         # Now flush the lights
