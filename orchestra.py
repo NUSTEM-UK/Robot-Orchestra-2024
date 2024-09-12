@@ -17,4 +17,5 @@ start_stop_button.when_pressed = handle_button
 
 while True:
     time.sleep(0.1)
-    orchestra.handle_buttons()
+    orchestra.handle_buttons() # TODO: should this be done internally by the Orchestra class?
+
