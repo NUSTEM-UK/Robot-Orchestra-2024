@@ -5,7 +5,23 @@ from board import SCL, SDA
 from adafruit_trellis import Trellis
 from trellisset import TrellisSet
 from repeated_timer import RepeatedTimer
+import paho.mqtt.client as mqtt
 
+
+def on_connect(client, userdata, flags, reason_code, properties):
+    print(f"MQTT connected with result code {reason_code}")
+    # I don't think we need to subscribe to anything, at this point.
+    # Certainly not in the orchestra (trellis) controller.
+
+def on_message(client, userdata, message):
+    pass
+
+mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+mqttc.on_connect = on_connect
+mqttc.on_message = on_message
+
+mqttc.connect("localhost", 1883, 60)
+mqttc.loop_start() # non-blocking loop
 
 class Orchestra(object):
 
@@ -45,6 +61,7 @@ class Orchestra(object):
         self.flash_column(self._current_beat, 0.05)
 
         # Network code goes here, I think?
+        mqttc.publish("orchestra/playset", playset)
 
         # Update the current beat
         self._current_beat = (self._current_beat + 1) % self._number_of_beats
